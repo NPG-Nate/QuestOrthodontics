@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<link rel="canonical" href="welcome.html" />
+
+	<title>Welcome to Quest Orthodontics - Thank You for Reaching Out!</title>
+
+	<meta name="description" content="Welcome to Quest Orthodontics! Thank you for reaching out. Watch our introduction video and learn what to expect on your journey to a beautiful smile.">
+
+	<link rel="shortcut icon" href="static/theme/image/png/favicon.png" type="image/x-icon">
+
+	<link rel="stylesheet" href="static/theme/css/bootstrap.css">
+	<link rel="stylesheet" href="static/theme/fonts/icon-font/css/style.css">
+	<link rel="stylesheet" href="static/theme/fonts/typography-font/typo.css">
+	<link rel="stylesheet" href="static/theme/fonts/fontawesome-5.15/css/all.css">
+
+	<link rel="stylesheet" href="static/theme/plugins/aos/aos.min.css">
+	<link rel="stylesheet" href="static/theme/plugins/fancybox/jquery.fancybox.min.css">
+	<link rel="stylesheet" href="static/theme/plugins/nice-select/nice-select.min.css">
+	<link rel="stylesheet" href="static/theme/plugins/slick/slick.min.css">
+	<link rel="stylesheet" href="static/theme/plugins/date-picker/css/gijgo.min.css" type="text/css" />
+
+	<link rel="stylesheet" href="static/theme/css/main.css">
+	<link rel="stylesheet" href="static/theme/css/theme-mode-customver=refresh1232131.css">
+
+	<script src="static/theme/js/vendor.min.js"></script>
+
+	<style>
+		.text-section a {
+			color: #21a2b8 !important;
+		}
+
+		.text-section a:hover {
+			color: #44525d !important;
+		}
+
+		.link-primary {
+			color: #21a2b8 !important;
+		}
+
+		.link-primary:hover {
+			color: #21a2b8 !important;
+			filter: brightness(75%);
+		}
+
+		.link-footer {
+			color: #FFFFFF !important;
+		}
+
+		.link-footer:hover {
+			filter: brightness(75%);
+		}
+
+		.gr-menu-dropdown,
+		.gr-megamenu-dropdown {
+			border-top-color: #21a2b8 !important;
+		}
+
+		.bg-green {
+			background-color: #21a2b8 !important;
+		}
+
+		.site-header .main-menu li .nav-link:hover,
+		.site-header .main-menu li .nav-link.active {
+			border-bottom: 2px solid #21a2b8;
+			border-color: #21a2b8;
+		}
+
+		.site-header .main-menu .drop-menu-item:hover a,
+		.site-header .main-menu .drop-menu-item.active {
+			color: #21a2b8 !important;
+		}
+
+		.text-primary {
+			color: #21a2b8 !important;
+		}
+
+		.btn-primary {
+			background-color: #21a2b8;
+			border-color: #21a2b8;
+			color: #FFFFFF !important;
+		}
+
+		.bg-primary {
+			background: #21a2b8 !important;
+		}
+
+		.border-primary {
+			border-color: #21a2b8 !important;
+		}
+
+		.carousel-control-prev-icon,
+		.carousel-control-next-icon {
+			background-color: #21a2b8;
+		}
+
+		.btn-primary:hover,
+		.btn-primary:active,
+		.btn-primary:focus,
+		.btn-primary:active:focus {
+			background-color: #21a2b8 !important;
+			border-color: #21a2b8 !important;
+			filter: brightness(85%) !important;
+			color: #FFFFFF !important;
+		}
+
+		.bg-dark {
+			background-color: #44525d !important;
+		}
+
+		.bg-mirage {
+			background-color: #44525d !important;
+		}
+
+		.bg-default-2 {
+			background: #f2f2f2;
+		}
+
+		@media (min-width: 320px) and (max-width: 992px) {
+			.offcanvas-active.navbar-expand-lg .navbar-collapse {
+				background: #fff !important;
+			}
+
+			.main-menu>li>.nav-link,
+			.site-header.dark-mode-texts .main-menu li .nav-link:hover,
+			.site-header.dark-mode-texts .main-menu li .nav-link.active {
+				color: #5b606c !important;
+			}
+		}
+
+		.header-btn .cta-dropdown {
+			position: relative;
+			display: inline-block;
+		}
+
+		.header-btn .cta-dropdown .cta-dropdown-menu {
+			position: absolute;
+			top: calc(100% + 0.75rem);
+			right: 0;
+			min-width: 300px;
+			background: #FFFFFF;
+			border-radius: 0.75rem;
+			padding: 0.75rem 0 0 0;
+			box-shadow: 0 20px 45px rgba(15, 20, 34, 0.18);
+			opacity: 0;
+			visibility: hidden;
+			transform: translateY(-12px);
+			transition: all 0.2s ease;
+			z-index: 1020;
+		}
+
+		.header-btn .cta-dropdown:hover .cta-dropdown-menu,
+		.header-btn .cta-dropdown:focus-within .cta-dropdown-menu {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+		}
+
+		.header-btn .cta-dropdown.open .cta-dropdown-menu {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+		}
+
+		.header-btn .cta-dropdown .cta-dropdown-menu a {
+			display: block;
+			padding: 0.75rem 1.25rem;
+			color: #161c2d;
+			font-size: 0.95rem;
+			text-decoration: none;
+			transition: background 0.15s ease, color 0.15s ease;
+		}
+
+		.header-btn .cta-dropdown .cta-dropdown-menu a:hover,
+		.header-btn .cta-dropdown .cta-dropdown-menu a:focus {
+			background: #21a2b8;
+			color: #FFFFFF;
+		}
+
+		.header-btn .cta-dropdown .cta-dropdown-menu a:last-child {
+			border-radius: 0 0 0.75rem 0.75rem;
+		}
+
+		/* Welcome Page Specific Styles */
+		.welcome-section {
+			padding: 80px 0 60px;
+			background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+		}
+
+		.welcome-section h1 {
+			color: #21a2b8;
+			font-weight: 700;
+			margin-bottom: 1.5rem;
+		}
+
+		.welcome-section .lead {
+			font-size: 1.25rem;
+			color: #44525d;
+			line-height: 1.8;
+		}
+
+		.video-section {
+			padding: 60px 0 80px;
+			background: #ffffff;
+		}
+
+		.video-wrapper {
+			max-width: 900px;
+			margin: 0 auto;
+			border-radius: 12px;
+			overflow: hidden;
+			box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+		}
+
+		.video-wrapper .embed-responsive {
+			border-radius: 12px;
+		}
+
+		.video-section h2 {
+			color: #161c2d;
+			margin-bottom: 2rem;
+		}
+
+		.next-steps {
+			padding: 60px 0;
+			background: #f8f9fa;
+		}
+
+		.next-steps h2 {
+			color: #161c2d;
+			margin-bottom: 2rem;
+		}
+
+		.step-card {
+			background: #ffffff;
+			border-radius: 12px;
+			padding: 2rem;
+			height: 100%;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.step-card:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+		}
+
+		.step-card .step-number {
+			width: 50px;
+			height: 50px;
+			background: #21a2b8;
+			color: #ffffff;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.5rem;
+			font-weight: 700;
+			margin-bottom: 1rem;
+		}
+
+		.step-card h4 {
+			color: #161c2d;
+			margin-bottom: 0.75rem;
+		}
+
+		.step-card p {
+			color: #6c757d;
+			margin-bottom: 0;
+		}
+	</style>
+</head>
+
+<body data-theme="light">
+
+	<div class="site-wrapper overflow-hidden">
+
+		<header class="site-header site-header--menu-left has-dark-mode-texts dark-mode-texts site-header--sticky sticky-header mobile-sticky-enable">
+
+			<div class="container-fluid pr-lg-9 pl-lg-9">
+
+				<nav class="navbar site-navbar offcanvas-active navbar-expand-lg px-0">
+
+					<div class="brand-logo">
+
+						<a href="index.html">
+
+							<img loading="lazy" src="static/theme/image/logo-main-black.png" alt="Quest Orthodontics: Dr. Arjun Patel" class="light-version-logo">
+
+							<img loading="lazy" src="static/theme/image/logo-main-white.png" alt="Quest Orthodontics: Dr. Arjun Patel" class="dark-version-logo">
+
+						</a>
+
+					</div>
+
+					<div class="collapse navbar-collapse" id="mobile-menu">
+
+						<div class="navbar-nav-wrapper">
+
+							<ul class="navbar-nav main-menu">
+
+								<li class="home-btn nav-item">
+									<a class="nav-link" href="index.html" role="button" aria-expanded="false">Home</a>
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle gr-toggle-arrow" id="navbarDropdown-our-practice" href="#category-our-practice" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Our Practice
+									</a>
+									<ul class="gr-menu-dropdown dropdown-menu" aria-labelledby="navbarDropdown-our-practice">
+										<li class="drop-menu-item"><a href="our-practice/our-doctor/index.html">Meet Dr. Arjun Patel</a></li>
+										<li class="drop-menu-item"><a href="our-practice/our-team/index.html">Meet Our Team</a></li>
+										<li class="drop-menu-item"><a href="our-practice/what-sets-us-apart/index.html">What Sets Us Apart</a></li>
+										<li class="drop-menu-item"><a href="our-practice/about-board-certification/index.html">About Board Certification</a></li>
+										<li class="drop-menu-item"><a href="our-practice/technology/index.html">Technology</a></li>
+										<li class="drop-menu-item"><a href="our-practice/insurance-and-financing/index.html">Insurance & Financing</a></li>
+										<li class="drop-menu-item"><a href="our-practice/office-visits/index.html">Office Visits</a></li>
+										<li class="drop-menu-item"><a href="our-practice/smile-transformations/index.html">Smile Transformations</a></li>
+										<li class="drop-menu-item"><a href="blog/index.html">Our Blog</a></li>
+										<li class="drop-menu-item"><a href="our-practice/supporting-our-community/index.html">Supporting Our Community</a></li>
+									</ul>
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle gr-toggle-arrow" id="navbarDropdown-your-options" href="#category-your-options" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Your Options
+									</a>
+									<ul class="gr-menu-dropdown dropdown-menu" aria-labelledby="navbarDropdown-your-options">
+										<li class="drop-menu-item"><a href="your-options/invisalign/index.html">Invisalign</a></li>
+										<li class="drop-menu-item"><a href="your-options/lightforce/index.html">LightForce Braces</a></li>
+										<li class="drop-menu-item"><a href="your-options/qlear-smile-aligners/index.html">Qlear Smile Aligners</a></li>
+										<li class="drop-menu-item"><a href="your-options/braces/index.html">Braces</a></li>
+										<li class="drop-menu-item"><a href="your-options/two-phase-treatment/index.html">Two-Phase Treatment</a></li>
+										<li class="drop-menu-item"><a href="your-options/sleep-and-airway/index.html">Sleep and Airway</a></li>
+										<li class="drop-menu-item"><a href="your-options/Remote-Monitoring/index.html">Remote Monitoring</a></li>
+										<li class="drop-menu-item"><a href="your-options/tmd-tmj-treatment/index.html">TMJ Treatment</a></li>
+										<li class="drop-menu-item"><a href="your-options/children/index.html">Parents Guide to Orthodontics</a></li>
+										<li class="drop-menu-item"><a href="your-options/adults/index.html">Guide to Adult Orthodontics</a></li>
+										<li class="drop-menu-item"><a href="your-options/adult-expanders/index.html">Adult Expanders</a></li>
+									</ul>
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle gr-toggle-arrow" id="navbarDropdown-for-patients" href="#category-for-patients" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										For Patients
+									</a>
+									<ul class="gr-menu-dropdown dropdown-menu" aria-labelledby="navbarDropdown-for-patients">
+										<li class="drop-menu-item"><a href="for-patients/lifetime-smiles-guarantee/index.html">Lifetime Smiles Guarantee</a></li>
+										<li class="drop-menu-item"><a href="for-patients/quest-smile-explorers-club/index.html">Quest Smile Explorers Club</a></li>
+										<li class="drop-menu-item"><a href="for-patients/emergency-care/index.html">Emergency Care</a></li>
+										<li class="drop-menu-item"><a href="for-patients/write-your-review/index.html">Write Your Review</a></li>
+									</ul>
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle gr-toggle-arrow" id="navbarDropdown-contact-us" href="#category-contact-us" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Get In Touch
+									</a>
+									<ul class="gr-menu-dropdown dropdown-menu" aria-labelledby="navbarDropdown-contact-us">
+										<li class="drop-menu-item"><a href="contact-us/patient-referral/index.html">Patient Referral Forms</a></li>
+									</ul>
+								</li>
+
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle gr-toggle-arrow" id="navbarDropdown-locations" href="#category-locations" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Locations
+									</a>
+									<ul class="gr-menu-dropdown dropdown-menu" aria-labelledby="navbarDropdown-locations">
+										<li class="drop-menu-item"><a href="locations/sandy-springs/index.html">Sandy Springs</a></li>
+										<li class="drop-menu-item"><a href="locations/decatur/index.html">Decatur</a></li>
+									</ul>
+								</li>
+
+							</ul>
+
+						</div>
+
+						<button class="d-block d-lg-none offcanvas-btn-close" type="button" data-toggle="collapse" data-target="#mobile-menu" aria-controls="mobile-menu" aria-expanded="true" aria-label="Toggle navigation">
+							<i class="gr-cross-icon"></i>
+						</button>
+
+					</div>
+
+					<div class="header-btn ml-auto">
+						<div class="cta-dropdown d-inline-block ml-lg-3 mt-3 mt-lg-0 w-auto">
+							<a class="btn btn-primary gr-hover-y gr-text-9 d-inline-flex align-items-center cta-dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+								<i class="icon far fa-calendar-plus font-weight-bold"></i>
+							</a>
+							<div class="cta-dropdown-menu" role="menu">
+								<a href="forms/in-person-smile-assessment/index.html" role="menuitem">Schedule Your Complimentary Consultation</a>
+								<a href="https://hub.greyfinch.com/" target="_blank" role="menuitem">View Patient Portal</a>
+							</div>
+						</div>
+
+						<a class="cta-l-btn btn btn-primary gr-hover-y gr-text-9" href="tel:470-440-7330" data-toggle="tooltip" data-placement="bottom" title="call">
+							<span>470-440-7330 </span><i class="icon fa fa-phone font-weight-bold"></i>
+						</a>
+
+						<a class="cta-l-btn btn btn-primary gr-hover-y gr-text-9" href="sms:470-440-7330" data-toggle="tooltip" data-placement="bottom" title="text">
+							<span>SMS </span><i class="icon fa fa-comment-alt font-weight-bold"></i>
+						</a>
+					</div>
+
+					<button class="navbar-toggler btn-close-off-canvas hamburger-icon border-0" type="button" data-toggle="collapse" data-target="#mobile-menu" aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="hamburger hamburger--squeeze js-hamburger">
+							<span class="hamburger-box">
+								<span class="hamburger-inner"></span>
+							</span>
+						</span>
+					</button>
+
+				</nav>
+
+			</div>
+
+		</header>
+
+		<script>
+			(function() {
+				var dropdowns = document.querySelectorAll('.site-header .cta-dropdown');
+				if (!dropdowns.length) {
+					return;
+				}
+
+				function closeAll() {
+					dropdowns.forEach(function(dropdown) {
+						dropdown.classList.remove('open');
+						var toggle = dropdown.querySelector('.cta-dropdown-toggle');
+						if (toggle) {
+							toggle.setAttribute('aria-expanded', 'false');
+						}
+					});
+				}
+
+				dropdowns.forEach(function(dropdown) {
+					var toggle = dropdown.querySelector('.cta-dropdown-toggle');
+					if (!toggle) {
+						return;
+					}
+
+					toggle.addEventListener('click', function(event) {
+						event.preventDefault();
+						event.stopPropagation();
+						var isOpen = dropdown.classList.contains('open');
+						closeAll();
+						if (!isOpen) {
+							dropdown.classList.add('open');
+							toggle.setAttribute('aria-expanded', 'true');
+						}
+					});
+
+					dropdown.querySelectorAll('.cta-dropdown-menu a').forEach(function(link) {
+						link.addEventListener('click', function() {
+							closeAll();
+						});
+					});
+				});
+
+				document.addEventListener('click', function(event) {
+					if (!event.target.closest('.cta-dropdown')) {
+						closeAll();
+					}
+				});
+
+				document.addEventListener('keyup', function(event) {
+					if (event.key === 'Escape') {
+						closeAll();
+					}
+				});
+			})();
+		</script>
+
+		<!-- Welcome Section -->
+		<section class="welcome-section">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-10 text-center">
+						<h1 class="display-4" data-aos="fade-up">Welcome to Quest Orthodontics!</h1>
+						<p class="lead" data-aos="fade-up" data-aos-delay="100">
+							Thank you for reaching out to us! We're thrilled that you've taken the first step toward achieving the beautiful, healthy smile you deserve. At Quest Orthodontics, Dr. Arjun Patel and our dedicated team are committed to providing you with exceptional care in a warm and welcoming environment.
+						</p>
+						<p class="lead" data-aos="fade-up" data-aos-delay="200">
+							Please take a moment to watch the video below to learn more about what makes our practice special and what you can expect during your journey with us.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Video Section -->
+		<section class="video-section">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 text-center">
+						<h2 data-aos="fade-up">A Message From Our Team</h2>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<div class="col-12">
+						<div class="video-wrapper" data-aos="fade-up" data-aos-delay="100">
+							<!-- 
+								==========================================
+								TO CHANGE THE VIDEO:
+								Replace the VIDEO_ID below with your YouTube video ID.
+								
+								Example: If your YouTube URL is:
+								https://www.youtube.com/watch?v=dQw4w9WgXcQ
+								
+								Then the VIDEO_ID is: dQw4w9WgXcQ
+								==========================================
+							-->
+							<div class="embed-responsive embed-responsive-16by9">
+								<iframe 
+									class="embed-responsive-item" 
+									src="https://www.youtube-nocookie.com/embed/VIDEO_ID_HERE" 
+									title="Welcome to Quest Orthodontics" 
+									frameborder="0" 
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+									allowfullscreen>
+								</iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Next Steps Section -->
+		<section class="next-steps">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12 text-center">
+						<h2 data-aos="fade-up">What's Next?</h2>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+						<div class="step-card">
+							<div class="step-number">1</div>
+							<h4>Schedule Your Consultation</h4>
+							<p>Book your complimentary consultation with Dr. Patel to discuss your smile goals and explore your treatment options.</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+						<div class="step-card">
+							<div class="step-number">2</div>
+							<h4>Meet Our Team</h4>
+							<p>Visit one of our convenient locations in Sandy Springs or Decatur to experience our welcoming atmosphere firsthand.</p>
+						</div>
+					</div>
+					<div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+						<div class="step-card">
+							<div class="step-number">3</div>
+							<h4>Start Your Journey</h4>
+							<p>Begin your personalized treatment plan and take the next step toward the confident smile you've always wanted.</p>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-4">
+					<div class="col-12 text-center" data-aos="fade-up" data-aos-delay="400">
+						<a href="forms/in-person-smile-assessment/index.html" class="btn btn-primary btn-lg gr-hover-y">
+							Schedule Your Complimentary Consultation <i class="fa fa-arrow-right ml-2"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<div class="footer-section border-top">
+
+			<div class="container">
+
+				<div class="copyright-area pt-9 pb-8">
+
+					<div class="row align-items-center">
+
+						<div class="col-lg-6">
+
+							<p class="copyright-text gr-text-11 mb-6 mb-lg-0 gr-text-color text-center text-lg-left">
+								&copy; 2026 Quest Orthodontics: Dr. Arjun Patel. All rights reserved.
+							</p>
+
+							<p class="copyright-text gr-text-11 mb-6 mb-lg-0 gr-text-color text-center text-lg-left">
+								<a href="privacy-policy/index.html" class="link-primary mr-2">Privacy Policy</a>
+								<a href="disability-policy/index.html" class="link-primary">Disability Policy</a>
+							</p>
+
+							<p class="copyright-text gr-text-10 mb-6 mb-lg-0 gr-text-color text-center text-lg-left">
+								Powered by <a href="https://pplpractice.com/" target="_blank" class="gr-text-color">People + Practice</a>
+							</p>
+
+						</div>
+
+						<div class="col-lg-6 text-center text-lg-right">
+
+							<ul class="social-icons list-unstyled mb-0">
+								<li class="ml-7"><a href="https://www.facebook.com/smilesaccomplished/" target="_blank" class="gr-text-6 link-primary"><i class="icon fab fa-facebook"></i></a></li>
+								<li class="ml-7"><a href="https://instagram.com/questorthodontics?utm_medium=copy_link" target="_blank" class="gr-text-6 link-primary"><i class="icon fab fa-instagram"></i></a></li>
+								<li class="ml-7"><a href="https://www.tiktok.com/@questortho" target="_blank" class="gr-text-6 link-primary"><i class="icon fab fa-tiktok"></i></a></li>
+								<li class="ml-7"><a href="https://www.youtube.com/channel/UCnh7L2C58BnfuwqQc0CsjKg" target="_blank" class="gr-text-6 link-primary"><i class="icon fab fa-youtube"></i></a></li>
+								<li class="ml-7"><a href="https://www.google.com/maps/place/Quest+Orthodontics:+Dr.+Arjun+Patel/@33.9205141,-84.3834524,15z/data=!4m2!3m1!1s0x0:0xfeeaf52843623cd9?sa=X&ved=2ahUKEwiXoNqS2uLyAhXEg-AKHSy2CW0Q_BIwEnoECGcQBQ" target="_blank" class="gr-text-6 link-primary"><i class="icon fab fa-google"></i></a></li>
+							</ul>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<script>
+		$(function() {
+			$('[data-toggle="tooltip"]').tooltip()
+		})
+	</script>
+
+	<script src="static/theme/plugins/fancybox/jquery.fancybox.min.js"></script>
+	<script src="static/theme/plugins/nice-select/jquery.nice-select.min.js"></script>
+	<script src="static/theme/plugins/aos/aos.min.js"></script>
+	<script src="static/theme/plugins/slick/slick.min.js"></script>
+	<script src="static/theme/plugins/date-picker/js/gijgo.min.js"></script>
+	<script src="static/theme/plugins/counter-up/jquery.waypoints.min.js"></script>
+	<script src="static/theme/plugins/counter-up/jquery.counterup.min.js"></script>
+	<script src="static/theme/js/custom.js"></script>
+
+</body>
+
+</html>
