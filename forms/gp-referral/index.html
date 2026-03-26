@@ -2232,23 +2232,10 @@
                 </p>
 <!-- UPDATE FORM WITH smile@questorthodontics.com -->
                 <form
-                  action="https://formsubmit.co/smile@questorthodontics.com"
                   method="POST"
                   class="referral-gp-form"
                   id="referralGPForm"
-                  enctype="multipart/form-data"
                 >
-                  <!-- FormSubmit Configuration -->
-                  <input
-                    type="hidden"
-                    name="_subject"
-                    value="New GP Dentist Referral - Quest Orthodontics"
-                  />
-                  <input type="hidden" name="_captcha" value="false" />
-                  <input type="hidden" name="_template" value="table" />
-                  <input type="text" name="_honey" style="display: none" />
-                  <input type="hidden" name="_cc" value="nate@newpatientgroup.com">
-
                   <!-- Referring Dentist Information -->
                   <div class="form-section mb-9">
                     <h3 class="gr-text-7 font-weight-bold mb-6 text-primary">
@@ -2643,71 +2630,12 @@
                         </div>
                       </div>
 
-                        <div class="col-md-6">
-                        <div class="form-group mb-7">
-                          <label class="gr-text-9 font-weight-bold mb-3"
-                          >X-rays Available?</label
-                          >
-                          <div>
-                          <div class="form-check form-check-inline">
-                            <input
-                            class="form-check-input"
-                            type="radio"
-                            name="X-rays Available"
-                            id="xraysYes"
-                            value="Yes"
-                            onchange="document.getElementById('xraysUploadSection').style.display='block'"
-                            />
-                            <label
-                            class="form-check-label gr-text-9"
-                            for="xraysYes"
-                            >
-                            Yes
-                            </label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input
-                            class="form-check-input"
-                            type="radio"
-                            name="X-rays Available"
-                            id="xraysNo"
-                            value="No"
-                            onchange="document.getElementById('xraysUploadSection').style.display='none'"
-                            />
-                            <label
-                            class="form-check-label gr-text-9"
-                            for="xraysNo"
-                            >
-                            No
-                            </label>
-                          </div>
-                          </div>
-                        </div>
-                        </div>
-
-                        <div class="col-12" id="xraysUploadSection" style="display: none">
-                        <div class="form-group mb-7">
-                          <label
-                          for="xraysUpload"
-                          class="gr-text-9 font-weight-bold mb-3"
-                          >Upload X-rays</label
-                          >
-                          <input
-                          type="file"
-                          class="form-control gr-text-9"
-                          id="xraysUpload"
-                          name="X-ray Files"
-                          accept=".jpg,.jpeg,.png,.pdf,.dcm"
-                          multiple
-                          />
-                          <small class="form-text text-muted gr-text-11">
-                          Accepted formats: JPG, PNG, PDF, DICOM. Max 10MB per file.
-                          </small>
-                          <div class="alert alert-info mt-3 gr-text-10">
+                        <div class="col-12">
+                        <div class="alert alert-info mb-7 gr-text-9">
                           <i class="fas fa-info-circle mr-2"></i>
-                          If files are too large to upload, please send them to
+                          <strong>Have X-rays to share?</strong> Please email them to
                           <a href="mailto:smile@questorthodontics.com" class="font-weight-bold">smile@questorthodontics.com</a>
-                          </div>
+                          with the patient's name in the subject line.
                         </div>
                         </div>
 
@@ -2868,68 +2796,136 @@
             return;
           }
 
+          // LeadSigma configuration
+          var LEADSIGMA_URL = "https://integration.leadsigma.com/slingshots";
+          var LEADSIGMA_TEAM_GROUP_ID = 2373;
+          var LEADSIGMA_SOURCE_ID = "66803e8f-0e8e-4520-97f2-de5498e3929f";
+
+          // CSV Logger
+          var CSV_LOG_URL = "../../api/log.php";
+
+          function buildLeadSigmaPayload(formData) {
+            var malocclusion = formData.getAll("Malocclusion[]").join(", ");
+            var dentistInfo = "Referring Dentist: " + (formData.get("Dentist Name") || "") +
+              " | Practice: " + (formData.get("Practice Name") || "") +
+              " | Dentist Phone: " + (formData.get("Dentist Phone") || "") +
+              " | Dentist Email: " + (formData.get("Dentist Email") || "");
+            var clinicalInfo = "Chief Concern: " + (formData.get("Chief Concern") || "") +
+              " | Malocclusion: " + (malocclusion || "None selected") +
+              " | Additional Notes: " + (formData.get("Additional Clinical Notes") || "") +
+              " | Urgency: " + (formData.get("Urgency Level") || "Routine") +
+              " | Parent/Guardian: " + (formData.get("Parent/Guardian Name") || "");
+            var fullMessage = dentistInfo + "\n" + clinicalInfo;
+
+            return {
+              inputs: [
+                { name: "first_name", value: formData.get("Patient First Name") || "" },
+                { name: "last_name", value: formData.get("Patient Last Name") || "" },
+                { name: "phone", value: formData.get("Patient Phone") || "" },
+                { name: "email", value: formData.get("Patient Email") || "" },
+                { name: "date_of_birth", value: formData.get("Patient Date of Birth") || "" },
+                { name: "message", value: fullMessage },
+                { name: "subjectreason", value: "GP Dentist Referral" },
+                { name: "concerns", value: formData.get("Chief Concern") || "" },
+                { name: "preferred_contact_method", value: "" }
+              ],
+              team_group_id: LEADSIGMA_TEAM_GROUP_ID,
+              source_id: LEADSIGMA_SOURCE_ID
+            };
+          }
+
+          function submitToLeadSigma(formData) {
+            var payload = buildLeadSigmaPayload(formData);
+            return fetch(LEADSIGMA_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+          }
+
+          function logToCSV(formData, leadsigmaStatus) {
+            var malocclusion = formData.getAll("Malocclusion[]").join(", ");
+            var payload = {
+              form_name: "gp-referral",
+              dentist_name: formData.get("Dentist Name") || "",
+              practice_name: formData.get("Practice Name") || "",
+              dentist_phone: formData.get("Dentist Phone") || "",
+              dentist_email: formData.get("Dentist Email") || "",
+              patient_first_name: formData.get("Patient First Name") || "",
+              patient_last_name: formData.get("Patient Last Name") || "",
+              patient_dob: formData.get("Patient Date of Birth") || "",
+              parent_guardian: formData.get("Parent/Guardian Name") || "",
+              patient_phone: formData.get("Patient Phone") || "",
+              patient_email: formData.get("Patient Email") || "",
+              chief_concern: formData.get("Chief Concern") || "",
+              malocclusion: malocclusion,
+              additional_notes: formData.get("Additional Clinical Notes") || "",
+              urgency: formData.get("Urgency Level") || "",
+              leadsigma_status: leadsigmaStatus || "pending"
+            };
+            fetch(CSV_LOG_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            }).catch(function (err) {
+              console.warn("CSV log failed (non-critical):", err);
+            });
+          }
+
+          function resetButton() {
+            submitBtn.disabled = false;
+            btnText.textContent = "Submit Referral";
+            btnIcon.style.display = "inline";
+            btnSpinner.style.display = "none";
+          }
+
           form.addEventListener("submit", function (e) {
             e.preventDefault();
 
-            // Hide previous messages
             successMsg.style.display = "none";
             errorMsg.style.display = "none";
 
-            // Disable button and show loading state
             submitBtn.disabled = true;
             btnText.textContent = "Submitting...";
             btnIcon.style.display = "none";
             btnSpinner.style.display = "inline-block";
 
-            // Prepare form data
             var formData = new FormData(form);
 
-            // Submit via AJAX to prevent page navigation
-            fetch(form.action, {
-              method: "POST",
-              body: formData,
-              headers: {
-                Accept: "application/json",
-              },
-            })
+            // Log to CSV immediately (parallel, regardless of LeadSigma outcome)
+            logToCSV(formData, "pending");
+
+            submitToLeadSigma(formData)
               .then(function (response) {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.textContent = "Submit Referral";
-                btnIcon.style.display = "inline";
-                btnSpinner.style.display = "none";
-
                 if (response.ok) {
-                  // Show success message
-                  successMsg.style.display = "block";
-                  form.reset();
-
-                  // Scroll to success message
-                  successMsg.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
+                  return response.text().then(function (text) {
+                    try { return text ? JSON.parse(text) : { success: true }; }
+                    catch (e) { return { success: true, rawResponse: text }; }
                   });
-
-                  // Hide success message after 15 seconds
-                  setTimeout(function () {
-                    successMsg.style.display = "none";
-                  }, 15000);
                 } else {
-                  throw new Error("Form submission failed");
+                  return response.text().then(function (text) {
+                    throw new Error("LeadSigma submission failed with status: " + response.status);
+                  });
                 }
               })
-              .catch(function (error) {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.textContent = "Submit Referral";
-                btnIcon.style.display = "inline";
-                btnSpinner.style.display = "none";
+              .then(function (data) {
+                console.log("LeadSigma submission successful:", data);
+                resetButton();
 
-                // Show error message
+                successMsg.style.display = "block";
+                form.reset();
+                successMsg.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                setTimeout(function () {
+                  successMsg.style.display = "none";
+                }, 15000);
+              })
+              .catch(function (error) {
+                console.error("LeadSigma submission error:", error);
+                resetButton();
+
                 errorMsg.style.display = "block";
                 errorMsg.scrollIntoView({ behavior: "smooth", block: "center" });
-
-                console.error("Form submission error:", error);
               });
           });
         });

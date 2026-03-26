@@ -2228,22 +2228,10 @@
                 </p>
 
                 <form
-                  action="https://formsubmit.co/smile@questorthodontics.com"
                   method="POST"
                   class="referral-form"
                   id="referralForm"
                 >
-                  <!-- FormSubmit Configuration -->
-                  <input
-                    type="hidden"
-                    name="_subject"
-                    value="New Patient Referral - Quest Orthodontics"
-                  />
-                  <input type="hidden" name="_captcha" value="false" />
-                  <input type="hidden" name="_template" value="table" />
-                  <input type="hidden" name="_cc" value="nate@newpatientgroup.com">
-                  <input type="text" name="_honey" style="display: none" />
-
                   <!-- Your Information -->
                   <div class="form-section mb-9">
                     <h3 class="gr-text-7 font-weight-bold mb-6 text-primary">
@@ -2536,71 +2524,121 @@
           var successMsg = document.getElementById("formSuccess");
           var errorMsg = document.getElementById("formError");
 
+          // LeadSigma configuration
+          var LEADSIGMA_URL = "https://integration.leadsigma.com/slingshots";
+          var LEADSIGMA_TEAM_GROUP_ID = 2373;
+          var LEADSIGMA_SOURCE_ID = "bb7df262-7271-49a1-a8f4-7fbff59add4d";
+
+          // CSV Logger
+          var CSV_LOG_URL = "../../api/log.php";
+
+          function buildLeadSigmaPayload(formData) {
+            var friendInfo = "Friend/Family: " + (formData.get("Referral Name") || "") +
+              " | Email: " + (formData.get("Referral Email") || "") +
+              " | Phone: " + (formData.get("Referral Phone") || "") +
+              " | Relationship: " + (formData.get("Relationship to Referrer") || "") +
+              " | SMS Consent: " + (formData.get("SMS Consent") || "No");
+            return {
+              inputs: [
+                { name: "first_name", value: formData.get("Referrer Name") || "" },
+                { name: "last_name", value: "" },
+                { name: "phone", value: formData.get("Referral Phone") || "" },
+                { name: "email", value: formData.get("Referrer Email") || "" },
+                { name: "message", value: friendInfo },
+                { name: "date_of_birth", value: "" },
+                { name: "subjectreason", value: "Friend/Family Referral" },
+                { name: "concerns", value: "" },
+                { name: "preferred_contact_method", value: "" }
+              ],
+              team_group_id: LEADSIGMA_TEAM_GROUP_ID,
+              source_id: LEADSIGMA_SOURCE_ID
+            };
+          }
+
+          function submitToLeadSigma(formData) {
+            var payload = buildLeadSigmaPayload(formData);
+            return fetch(LEADSIGMA_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+          }
+
+          function logToCSV(formData, leadsigmaStatus) {
+            var payload = {
+              form_name: "friend-referral",
+              referrer_name: formData.get("Referrer Name") || "",
+              referrer_email: formData.get("Referrer Email") || "",
+              friend_name: formData.get("Referral Name") || "",
+              friend_email: formData.get("Referral Email") || "",
+              friend_phone: formData.get("Referral Phone") || "",
+              relationship: formData.get("Relationship to Referrer") || "",
+              sms_consent: formData.get("SMS Consent") || "No",
+              leadsigma_status: leadsigmaStatus || "pending"
+            };
+            fetch(CSV_LOG_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            }).catch(function (err) {
+              console.warn("CSV log failed (non-critical):", err);
+            });
+          }
+
+          function resetButton() {
+            submitBtn.disabled = false;
+            btnText.textContent = "Send Referral";
+            btnIcon.style.display = "inline";
+            btnSpinner.style.display = "none";
+          }
+
           form.addEventListener("submit", function (e) {
             e.preventDefault();
 
-            // Hide previous messages
             successMsg.style.display = "none";
             errorMsg.style.display = "none";
 
-            // Disable button and show loading state
             submitBtn.disabled = true;
             btnText.textContent = "Sending...";
             btnIcon.style.display = "none";
             btnSpinner.style.display = "inline-block";
 
-            // Prepare form data
             var formData = new FormData(form);
 
-            // Submit via AJAX to prevent page navigation
-            fetch(form.action, {
-              method: "POST",
-              body: formData,
-              headers: {
-                Accept: "application/json",
-              },
-            })
+            // Log to CSV immediately (parallel, regardless of LeadSigma outcome)
+            logToCSV(formData, "pending");
+
+            submitToLeadSigma(formData)
               .then(function (response) {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.textContent = "Send Referral";
-                btnIcon.style.display = "inline";
-                btnSpinner.style.display = "none";
-
                 if (response.ok) {
-                  // Show success message
-                  successMsg.style.display = "block";
-                  form.reset();
-
-                  // Scroll to success message
-                  successMsg.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
+                  return response.text().then(function (text) {
+                    try { return text ? JSON.parse(text) : { success: true }; }
+                    catch (e) { return { success: true, rawResponse: text }; }
                   });
-
-                  // Hide success message after 15 seconds
-                  setTimeout(function () {
-                    successMsg.style.display = "none";
-                  }, 15000);
                 } else {
-                  throw new Error("Form submission failed");
+                  return response.text().then(function (text) {
+                    throw new Error("LeadSigma submission failed with status: " + response.status);
+                  });
                 }
               })
+              .then(function (data) {
+                console.log("LeadSigma submission successful:", data);
+                resetButton();
+
+                successMsg.style.display = "block";
+                form.reset();
+                successMsg.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                setTimeout(function () {
+                  successMsg.style.display = "none";
+                }, 15000);
+              })
               .catch(function (error) {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.textContent = "Send Referral";
-                btnIcon.style.display = "inline";
-                btnSpinner.style.display = "none";
+                console.error("LeadSigma submission error:", error);
+                resetButton();
 
-                // Show error message
                 errorMsg.style.display = "block";
-                errorMsg.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
-                });
-
-                console.error("Form submission error:", error);
+                errorMsg.scrollIntoView({ behavior: "smooth", block: "center" });
               });
           });
         });

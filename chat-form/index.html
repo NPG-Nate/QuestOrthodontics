@@ -2214,22 +2214,10 @@
                 </h2>
 
                 <form
-                  action="https://formsubmit.co/smile@questorthodontics.com"
                   method="POST"
                   class="contact-form"
                   id="contactForm"
                 >
-                  <!-- FormSubmit Configuration -->
-                  <input
-                    type="hidden"
-                    name="_subject"
-                    value="New Contact Form Submission from Quest Orthodontics"
-                  />
-                  <input type="hidden" name="_captcha" value="false" />
-                  <input type="hidden" name="_template" value="table" />
-                  <input type="text" name="_honey" style="display: none" />
-                  <input type="hidden" name="_cc" value="nate@newpatientgroup.com">
-
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group mb-7">
@@ -2468,6 +2456,74 @@
           var successMsg = document.getElementById("formSuccess");
           var errorMsg = document.getElementById("formError");
 
+          // LeadSigma configuration
+          var LEADSIGMA_URL = "https://integration.leadsigma.com/slingshots";
+          var LEADSIGMA_TEAM_GROUP_ID = 2373;
+          var LEADSIGMA_SOURCE_ID = "7be309c2-b87b-4c5f-b2cb-b143acffe386";
+
+          // Build LeadSigma payload from form data
+          function buildLeadSigmaPayload(formData) {
+            return {
+              inputs: [
+                { name: "first_name", value: formData.get("firstName") || "" },
+                { name: "last_name", value: formData.get("lastName") || "" },
+                { name: "phone", value: formData.get("phone") || "" },
+                { name: "email", value: formData.get("email") || "" },
+                { name: "message", value: formData.get("message") || "" },
+                { name: "date_of_birth", value: "" },
+                { name: "subjectreason", value: formData.get("subject") || "" },
+                { name: "concerns", value: "" },
+                { name: "preferred_contact_method", value: formData.get("preferredContact") || "" }
+              ],
+              team_group_id: LEADSIGMA_TEAM_GROUP_ID,
+              source_id: LEADSIGMA_SOURCE_ID
+            };
+          }
+
+          // Submit to LeadSigma (Primary)
+          function submitToLeadSigma(formData) {
+            var payload = buildLeadSigmaPayload(formData);
+            return fetch(LEADSIGMA_URL, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(payload)
+            });
+          }
+
+          // Log to CSV (fire-and-forget, runs regardless of LeadSigma outcome)
+          var CSV_LOG_URL = "../api/log.php";
+
+          function logToCSV(formData, leadsigmaStatus) {
+            var payload = {
+              form_name: "contact",
+              first_name: formData.get("firstName") || "",
+              last_name: formData.get("lastName") || "",
+              email: formData.get("email") || "",
+              phone: formData.get("phone") || "",
+              subject: formData.get("subject") || "",
+              message: formData.get("message") || "",
+              preferred_contact: formData.get("preferredContact") || "",
+              leadsigma_status: leadsigmaStatus || "pending"
+            };
+            fetch(CSV_LOG_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            }).catch(function (err) {
+              console.warn("CSV log failed (non-critical):", err);
+            });
+          }
+
+          // Reset button to default state
+          function resetButton() {
+            submitBtn.disabled = false;
+            btnText.textContent = "Send Message";
+            btnIcon.style.display = "inline";
+            btnSpinner.style.display = "none";
+          }
+
           form.addEventListener("submit", function (e) {
             e.preventDefault();
 
@@ -2484,55 +2540,70 @@
             // Prepare form data
             var formData = new FormData(form);
 
-            // Submit via AJAX to prevent page navigation
-            fetch(form.action, {
-              method: "POST",
-              body: formData,
-              headers: {
-                Accept: "application/json",
-              },
-            })
+            // Log to CSV immediately (parallel, regardless of LeadSigma outcome)
+            logToCSV(formData, "pending");
+
+            // Submit to LeadSigma (Primary)
+            submitToLeadSigma(formData)
               .then(function (response) {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.textContent = "Send Message";
-                btnIcon.style.display = "inline";
-                btnSpinner.style.display = "none";
-
+                console.log("LeadSigma Response Status:", response.status);
+                console.log("LeadSigma Response OK:", response.ok);
+                console.log("LeadSigma Response Headers:", [...response.headers.entries()]);
+                
                 if (response.ok) {
-                  // Show success message
-                  successMsg.style.display = "block";
-                  form.reset();
-
-                  // Scroll to success message
-                  successMsg.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center",
+                  // LeadSigma may return empty body on success, so don't require JSON
+                  return response.text().then(function (text) {
+                    console.log("LeadSigma Raw Response Body:", text);
+                    try {
+                      return text ? JSON.parse(text) : { success: true };
+                    } catch (e) {
+                      return { success: true, rawResponse: text };
+                    }
                   });
-
-                  // Optional: Hide success message after 10 seconds
-                  setTimeout(function () {
-                    successMsg.style.display = "none";
-                  }, 10000);
                 } else {
-                  throw new Error("Form submission failed");
+                  return response.text().then(function (text) {
+                    console.log("LeadSigma Error Response Body:", text);
+                    throw new Error("LeadSigma submission failed with status: " + response.status);
+                  });
                 }
               })
-              .catch(function (error) {
+              .then(function (data) {
+                console.log("LeadSigma submission successful:", data);
+
                 // Reset button state
-                submitBtn.disabled = false;
-                btnText.textContent = "Send Message";
-                btnIcon.style.display = "inline";
-                btnSpinner.style.display = "none";
+                resetButton();
+
+                // Show success message
+                successMsg.style.display = "block";
+                form.reset();
+
+                // Scroll to success message
+                successMsg.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center"
+                });
+
+                // Hide success message after 10 seconds
+                setTimeout(function () {
+                  successMsg.style.display = "none";
+                }, 10000);
+
+
+              })
+              .catch(function (error) {
+                console.error("LeadSigma submission error:", error);
+
+                // Reset button state
+                resetButton();
 
                 // Show error message
                 errorMsg.style.display = "block";
                 errorMsg.scrollIntoView({
                   behavior: "smooth",
-                  block: "center",
+                  block: "center"
                 });
 
-                console.error("Form submission error:", error);
+
               });
           });
         });
